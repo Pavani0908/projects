@@ -1,0 +1,7 @@
+Flask
+numpy
+tensorflow
+lightgbm
+scikit-learn
+joblib
+pandas

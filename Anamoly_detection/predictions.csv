@@ -1,0 +1,9 @@
+dur,proto,service,state,spkts,Anomaly Score,Anomaly Detected,Predicted Attack Category
+0.4,1.0,3.0,1.0,13,2.576211976063303,No,N/A
+0.9,1.5,5.0,1.5,24,6.12854220747938,Yes,Exploits
+0.6,0.8,4.2,1.2,19,4.429803920074598,Yes,Exploits
+1.0,1.2,3.8,1.1,16,3.853286236198106,Yes,Fuzzers
+0.7,1.0,4.1,1.0,20,4.724629634490995,Yes,Exploits
+0.5,-1.4,3.1,-1.5,12,2.2098610656092252,No,N/A
+1.2,2.0,5.0,2.0,28,7.339208621748239,Yes,Fuzzers
+0.6,1.0,4.0,1.0,18,4.190484233557916,Yes,Exploits

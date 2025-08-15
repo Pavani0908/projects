@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shield-alt"></i> Anomaly Detection & Attack Classification</h1>
+            <p>Upload a file or enter data manually to detect anomalies and classify attack types</p>
+        </header>
+
+        <div class="input-selector">
+            <button id="file-selector" class="selector-btn active" onclick="showInputMethod('file')">
+                <i class="fas fa-file-upload"></i> File Upload
+            </button>
+            <button id="form-selector" class="selector-btn" onclick="showInputMethod('form')">
+                <i class="fas fa-keyboard"></i> Manual Input
+            </button>
+        </div>
+
+        <div class="card" id="file-input-section">
+            <h2><i class="fas fa-file-csv"></i> Upload CSV File</h2>
+            <p>Upload a CSV file with {{ expected_feature_count }} features per row</p>
+            <form action="/predict_file" method="post" enctype="multipart/form-data" id="file-form">
+                <div class="file-upload">
+                    <label for="file-upload-input" class="custom-file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i> Choose File
+                    </label>
+                    <input id="file-upload-input" type="file" name="file" required>
+                    <span id="file-name">{% if filename %}{{ filename }}{% else %}No file chosen{% endif %}</span>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="primary-btn">
+                        <i class="fas fa-search"></i> Analyze
+                    </button>
+                    <button type="button" class="secondary-btn" onclick="clearAll()">
+                        <i class="fas fa-undo"></i> Clear All
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card" id="form-input-section" style="display: none;">
+            <h2><i class="fas fa-keyboard"></i> Enter Values Manually</h2>
+            <p>Enter {{ expected_feature_count }} feature values for analysis</p>
+            <form action="/predict_manual" method="post" id="manual-form">
+                <div class="form-grid">
+                    {% for i in range(expected_feature_count) %}
+                    <div class="form-group">
+                        <label for="feature-{{ i }}">
+                            {{ ['tcprtt', 'ackdat', 'dload', 'sload', 'rate'][i] if i < 5 else 'Feature ' ~ (i + 1) }}:
+                        </label>
+                        <input type="number" step="any" name="{{ i }}" id="feature-{{ i }}" required
+                               value="{{ request.form[i|string] if request.form and request.form.get(i|string) else '' }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="primary-btn">
+                        <i class="fas fa-search"></i> Analyze
+                    </button>
+                    <button type="button" class="secondary-btn" onclick="clearAll()">
+                        <i class="fas fa-undo"></i> Clear All
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {% if tables %}
+        <div class="card results-section" id="results-section">
+            <h2><i class="fas fa-chart-bar"></i> Analysis Results</h2>
+            <div class="table-responsive">
+                {% for table in tables %}
+                {{ table | safe }}
+                {% endfor %}
+            </div>
+            
+            {% if download_link %}
+            <div class="download-section">
+                <a href="{{ url_for('download_predictions') }}" class="download-btn">
+                    <i class="fas fa-download"></i> Download Full Results
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>Anomaly Detection System &copy; 2025</p>
+    </footer>
+
+    <script>
+        // Set active input method based on form submission
+        window.onload = function() {
+            {% if input_type == "form" %}
+                showInputMethod('form');
+            {% else %}
+                showInputMethod('file');
+            {% endif %}
+            
+            // File upload name display
+            const fileInput = document.getElementById('file-upload-input');
+            const fileNameDisplay = document.getElementById('file-name');
+            
+            if (fileInput) {
+                fileInput.addEventListener('change', function() {
+                    if (this.files && this.files.length > 0) {
+                        fileNameDisplay.textContent = this.files[0].name;
+                    } else {
+                        fileNameDisplay.textContent = 'No file chosen';
+                    }
+                });
+            }
+        };
+
+        function showInputMethod(method) {
+            // Update button states
+            document.getElementById('file-selector').classList.remove('active');
+            document.getElementById('form-selector').classList.remove('active');
+            document.getElementById(method + '-selector').classList.add('active');
+            
+            // Show/hide appropriate sections
+            document.getElementById('file-input-section').style.display = method === 'file' ? 'block' : 'none';
+            document.getElementById('form-input-section').style.display = method === 'form' ? 'block' : 'none';
+        }
+
+        function clearAll() {
+            // Clear form inputs
+            document.getElementById('file-form').reset();
+            document.getElementById('manual-form').reset();
+            document.getElementById('file-name').textContent = 'No file chosen';
+            
+            // Remove results
+            const resultsSection = document.getElementById('results-section');
+            if (resultsSection) {
+                resultsSection.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
+
