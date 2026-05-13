@@ -1,0 +1,38 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / OS
+.idea/
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs and local caches
+*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# TensorFlow / Keras
+.keras/

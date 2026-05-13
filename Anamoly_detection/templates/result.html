@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results | Anomaly Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-clipboard-list"></i> About results</h1>
+            <p>This project shows prediction output on the home page after each analysis.</p>
+        </header>
+
+        <div class="card">
+            <h2><i class="fas fa-home"></i> Where to see results</h2>
+            <p>Upload a CSV or use manual input on the main page. Tables and the download link appear there after a successful run.</p>
+            <div class="button-group">
+                <a class="primary-btn download-btn" href="{{ url_for('index') }}" style="text-decoration: none;">
+                    <i class="fas fa-arrow-left"></i> Back to analysis
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Anomaly Detection System</p>
+    </footer>
+</body>
+</html>

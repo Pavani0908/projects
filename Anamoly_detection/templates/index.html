@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anomaly Detection System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
-
+<body data-input-type="{{ input_type or 'file' }}">
     <div class="container">
         <header>
             <h1><i class="fas fa-shield-alt"></i> Anomaly Detection & Attack Classification</h1>
@@ -93,57 +92,10 @@
     </div>
 
     <footer>
-        <p>Anomaly Detection System &copy; 2025</p>
+        <p>Anomaly Detection System &copy; 2026</p>
     </footer>
 
-    <script>
-        // Set active input method based on form submission
-        window.onload = function() {
-            {% if input_type == "form" %}
-                showInputMethod('form');
-            {% else %}
-                showInputMethod('file');
-            {% endif %}
-            
-            // File upload name display
-            const fileInput = document.getElementById('file-upload-input');
-            const fileNameDisplay = document.getElementById('file-name');
-            
-            if (fileInput) {
-                fileInput.addEventListener('change', function() {
-                    if (this.files && this.files.length > 0) {
-                        fileNameDisplay.textContent = this.files[0].name;
-                    } else {
-                        fileNameDisplay.textContent = 'No file chosen';
-                    }
-                });
-            }
-        };
-
-        function showInputMethod(method) {
-            // Update button states
-            document.getElementById('file-selector').classList.remove('active');
-            document.getElementById('form-selector').classList.remove('active');
-            document.getElementById(method + '-selector').classList.add('active');
-            
-            // Show/hide appropriate sections
-            document.getElementById('file-input-section').style.display = method === 'file' ? 'block' : 'none';
-            document.getElementById('form-input-section').style.display = method === 'form' ? 'block' : 'none';
-        }
-
-        function clearAll() {
-            // Clear form inputs
-            document.getElementById('file-form').reset();
-            document.getElementById('manual-form').reset();
-            document.getElementById('file-name').textContent = 'No file chosen';
-            
-            // Remove results
-            const resultsSection = document.getElementById('results-section');
-            if (resultsSection) {
-                resultsSection.style.display = 'none';
-            }
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
 
